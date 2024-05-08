@@ -34,23 +34,23 @@ router.get('/', async (req, res, next) => {
     const secondChanceItems = await collection.find({}).toArray()
     console.log(secondChanceItems)
     // Step 2: task 4 - insert code here
-    res.json( secondChanceItems )
+    res.json(secondChanceItems)
   } catch (e) {
     logger.console.error('oops something went wrong', e)
     next(e)
   }
-});
+})
 
 // Add a new item
-router.post('/', upload.single('file'), async(req, res,next) => {
+router.post('/', upload.single('file'), async (req, res, next) => {
   try {
     const db = await connectToDatabase()
-    const collection = db.collection("secondChanceItems")
-    const lastItemQuery = await collection.find().sort({'id': -1}).limit(1)
+    const collection = db.collection('secondChanceItems')
+    const lastItemQuery = await collection.find().sort({ id: -1 }).limit(1)
     let secondChanceItem = req.body
     await lastItemQuery.forEach(item => {
       secondChanceItem.id = (parseInt(item.id) + 1).toString()
-    });
+    })
 
     const date_added = Math.floor(new Date().getTime() / 1000)
     secondChanceItem.date_added = date_added
@@ -58,9 +58,9 @@ router.post('/', upload.single('file'), async(req, res,next) => {
     console.log(secondChanceItem)
     res.status(201).json(secondChanceItem)
   } catch (e) {
-    next(e);
+    next(e)
   }
-});
+})
 
 // Get a single secondChanceItem by ID
 router.get('/:id', async (req, res, next) => {
@@ -78,9 +78,9 @@ router.get('/:id', async (req, res, next) => {
       
     res.json(secondChanceItem);
   } catch (e) {
-    next(e);
+    next(e)
   }
-});
+})
 
 // Update and existing item
 router.put('/:id', async(req, res,next) => {
@@ -116,7 +116,7 @@ router.put('/:id', async(req, res,next) => {
   } catch (e) {
     next(e)
   }
-});
+})
 
 // Delete an existing item
 router.delete('/:id', async(req, res,next) => {
@@ -137,6 +137,6 @@ router.delete('/:id', async(req, res,next) => {
   } catch (e) {
     next(e)
   }
-});
+})
 
-module.exports = router;
+module.exports = router
