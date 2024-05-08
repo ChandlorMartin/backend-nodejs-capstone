@@ -12,35 +12,34 @@ const directoryPath = 'public/images'
 // Set up storage for uploaded files
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, directoryPath); // Specify the upload directory
+    cb(null, directoryPath) // Specify the upload directory
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname); // Use the original file name
-  },
-});
+    cb(null, file.originalname) // Use the original file name
+  }
+})
 
-const upload = multer({ storage: storage });
-
+const upload = multer({ storage: storage })
 
 // Get all secondChanceItems
 router.get('/', async (req, res, next) => {
     logger.info('/ called');
     try {
-        //Step 2: task 1 - insert code here
-        const db = await connectToDatabase();
-        //Step 2: task 2 - insert code here
-        logger.info('/ called2');
-        const collection = db.collection("secondChanceItems");
+      //Step 2: task 1 - insert code here
+      const db = await connectToDatabase();
+      //Step 2: task 2 - insert code here
+      logger.info('/ called2');
+      const collection = db.collection("secondChanceItems");
 
-        //Step 2: task 3 - insert code here
-        const secondChanceItems = await collection.find({}).toArray();
-        console.log(secondChanceItems);
+      //Step 2: task 3 - insert code here
+      const secondChanceItems = await collection.find({}).toArray();
+      console.log(secondChanceItems);
 
-        //Step 2: task 4 - insert code here
-        res.json( secondChanceItems );
+      //Step 2: task 4 - insert code here
+      res.json( secondChanceItems );
     } catch (e) {
-        logger.console.error('oops something went wrong', e)
-        next(e);
+      logger.console.error('oops something went wrong', e)
+      next(e);
     }
 });
 
